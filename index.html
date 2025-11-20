@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workplace Activity Tracker</title>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏢 Workplace Activity Tracker</h1>
+            <nav>
+                <a href="index.html" class="nav-link active">Dashboard</a>
+                <a href="events/add.html" class="nav-link">Add Activity</a>
+                <a href="events/index.html" class="nav-link">View Events</a>
+                <a href="stats.html" class="nav-link">Statistics</a>
+                <a href="login.html" class="nav-link">Login</a>
+            </nav>
+        </header>
+
+        <main>
+            <div class="dashboard">
+                <h2>Today's Activities</h2>
+                <div id="today-activities" class="activities-container">
+                    <div class="loading">Loading...</div>
+                </div>
+                
+                <h2>All Upcoming Events</h2>
+                <div id="all-activities" class="activities-container">
+                    <div class="loading">Loading...</div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/supabase-client.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
