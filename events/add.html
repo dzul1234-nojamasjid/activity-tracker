@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Activity - Workplace Tracker</title>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background-color: #95a5a6;
+            color: white;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+        }
+        
+        .date-weekday-toggle {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .toggle-option {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏢 Add New Activity</h1>
+            <nav>
+                <a href="../index.html" class="nav-link">Dashboard</a>
+                <a href="add.html" class="nav-link active">Add Activity</a>
+                <a href="index.html" class="nav-link">View Events</a>
+                <a href="../stats.html" class="nav-link">Statistics</a>
+                <a href="../login.html" class="nav-link">Login</a>
+            </nav>
+        </header>
+
+        <main>
+            <div class="form-container">
+                <form id="add-activity-form">
+                    <!-- Date/Weekday Selection -->
+                    <div class="form-group">
+                        <label>Schedule Type</label>
+                        <div class="date-weekday-toggle">
+                            <div class="toggle-option">
+                                <input type="radio" id="schedule-date" name="schedule_type" value="date" checked>
+                                <label for="schedule-date">Specific Date</label>
+                            </div>
+                            <div class="toggle-option">
+                                <input type="radio" id="schedule-weekday" name="schedule_type" value="weekday">
+                                <label for="schedule-weekday">Recurring Weekday</label>
+                            </div>
+                        </div>
+                        
+                        <div id="date-field">
+                            <label for="date">Date</label>
+                            <input type="date" id="date" name="date" required>
+                        </div>
+                        
+                        <div id="weekday-field" class="hidden">
+                            <label for="weekday">Weekday</label>
+                            <select id="weekday" name="weekday">
+                                <option value="">Select a day</option>
+                                <option value="Monday">Monday</option>
+                                <option value="Tuesday">Tuesday</option>
+                                <option value="Wednesday">Wednesday</option>
+                                <option value="Thursday">Thursday</option>
+                                <option value="Friday">Friday</option>
+                                <option value="Saturday">Saturday</option>
+                                <option value="Sunday">Sunday</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Time -->
+                    <div class="form-group">
+                        <label for="time">Time</label>
+                        <input type="time" id="time" name="time" required>
+                    </div>
+
+                    <!-- Event Name -->
+                    <div class="form-group">
+                        <label for="event">Event Name</label>
+                        <input type="text" id="event" name="event" placeholder="Enter event name" required>
+                    </div>
+
+                    <!-- PAX -->
+                    <div class="form-group">
+                        <label for="pax">Number of PAX</label>
+                        <input type="number" id="pax" name="pax" min="1" placeholder="Enter number of participants" required>
+                    </div>
+
+                    <!-- Work Description -->
+                    <div class="form-group">
+                        <label for="work_description">Work Description</label>
+                        <textarea id="work_description" name="work_description" rows="3" placeholder="Enter work description"></textarea>
+                    </div>
+
+                    <!-- Venue -->
+                    <div class="form-group">
+                        <label for="venue">Venue</label>
+                        <select id="venue" name="venue" required>
+                            <option value="">Select a venue</option>
+                            <option value="Auditorium">Auditorium</option>
+                            <option value="Basement">Basement</option>
+                            <option value="Classroom Level #3">Classroom Level #3</option>
+                            <option value="Classroom Level #4">Classroom Level #4</option>
+                            <option value="Conference Room">Conference Room</option>
+                            <option value="Courtyard (Sengkuap)">Courtyard (Sengkuap)</option>
+                            <option value="Foyer">Foyer</option>
+                            <option value="Kariah Cooking Area">Kariah Cooking Area</option>
+                            <option value="MPH-Main Prayer Hall">MPH-Main Prayer Hall</option>
+                            <option value="MPH-Basement">MPH-Basement</option>
+                            <option value="Rooftop">Rooftop</option>
+                            <option value="Tabligh Corner">Tabligh Corner</option>
+                            <option value="Taman Rashidah">Taman Rashidah</option>
+                            <option value="Toko Umi">Toko Umi</option>
+                            <option value="Others">Others</option>
+                        </select>
+                    </div>
+
+                    <!-- Misc Items -->
+                    <div class="form-group">
+                        <label>Miscellaneous Items Needed</label>
+                        <div class="checkbox-group" id="misc-items-container">
+                            <!-- JavaScript will populate this -->
+                        </div>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Add Activity</button>
+                        <a href="../index.html" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+
+                <div id="message" style="margin-top: 20px;"></div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/supabase-client.js"></script>
+    <script src="../js/constants.js"></script>
+    <script src="add-activity.js"></script>
+</body>
+</html>
